@@ -86,7 +86,9 @@ const CoinDetail: React.FC<{ data: CoinData }> = ({ data }) => {
 
   const adjustVisibleHours = () => {
     const width = window.innerWidth;
-    if (width < 600) {
+    if (width < 400) {
+      setVisibleHours(1);
+    } else if (width < 600) {
       setVisibleHours(2);
     } else if (width < 960) {
       setVisibleHours(4);

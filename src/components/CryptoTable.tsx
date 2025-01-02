@@ -134,7 +134,15 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
               console.log(coin),
               (
                 <React.Fragment key={coin.id}>
-                  <TableRow onClick={() => handleRowClick(coin.id)}>
+                  <TableRow
+                    onClick={() => handleRowClick(coin.id)}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
+                    }}
+                  >
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Box display="flex" alignItems="center">

@@ -3,14 +3,10 @@ import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const sortBy = searchParams.get("sortBy") || "market_cap";
-  const sortOrder = searchParams.get("sortOrder") || "desc";
-  const page = searchParams.get("page") || "1";
+  const query = searchParams.get("query") || "";
 
   try {
-    const data = await fetchWithAuth(
-      `/coins/markets?vs_currency=usd&order=${sortBy}_${sortOrder}&per_page=100&page=${page}&sparkline=false`
-    );
+    const data = await fetchWithAuth(`/search?query=${query}`);
 
     return NextResponse.json(data);
   } catch (error) {
