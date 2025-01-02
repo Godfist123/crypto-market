@@ -13,7 +13,7 @@ export default function Home() {
     const fetchCoinList = async () => {
       try {
         const response = await fetch(
-          `/api/coinlist/?sortBy=${sortBy}&sortOrder=${sortOrder}`
+          `/api/coinList/?sortBy=${sortBy}&sortOrder=${sortOrder}`
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch with status: ${response.status}`);

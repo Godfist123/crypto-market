@@ -16,6 +16,7 @@ import {
   MenuItem,
   Toolbar,
 } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 interface Crypto {
   id: string;
@@ -43,6 +44,8 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
   sortBy,
   sortOrder,
 }) => {
+  const router = useRouter();
+
   const [anchorElSortBy, setAnchorElSortBy] = useState<null | HTMLElement>(
     null
   );
@@ -65,6 +68,10 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
   const handleOrderClose = (newOrder?: "asc" | "desc") => {
     setAnchorElOrder(null);
     if (newOrder) setSortOrder(newOrder);
+  };
+
+  const handleRowClick = (id: string) => {
+    router.push(`/coins/${id}`);
   };
 
   return (
@@ -127,7 +134,7 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
               console.log(coin),
               (
                 <React.Fragment key={coin.id}>
-                  <TableRow>
+                  <TableRow onClick={() => handleRowClick(coin.id)}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Box display="flex" alignItems="center">
