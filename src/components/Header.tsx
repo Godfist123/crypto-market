@@ -122,15 +122,19 @@ export default function Header() {
       <AppBar position="static" sx={{ height: 60, backgroundColor: "#333" }}>
         <Toolbar>
           <CurrencyBitcoinIcon
+            cursor="pointer"
+            onClick={() => router.push("/")}
             sx={{ color: "#E2C4C4", marginRight: 2, fontSize: 40 }}
           />
           <Typography
+            onClick={() => router.push("/")}
             variant="h5"
             noWrap
             component="div"
             color="#EEE4E4"
             sx={{
               flexGrow: 1,
+              cursor: "pointer",
               display: {
                 xs: "none",
                 sm: "block",
