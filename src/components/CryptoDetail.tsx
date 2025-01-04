@@ -51,6 +51,7 @@ const CoinDetail: React.FC<{ data: CoinData }> = ({ data }) => {
 
   const [chartData, setChartData] = useState({ labels: [], data: [] });
   const [visibleHours, setVisibleHours] = useState(6);
+  const [additionalInfoFlag, setAdditionalInfoFlag] = useState(true);
 
   // Fetch chart data for the given coin and calculate the time range
   const fetchChartData = async () => {
@@ -88,12 +89,16 @@ const CoinDetail: React.FC<{ data: CoinData }> = ({ data }) => {
     const width = window.innerWidth;
     if (width < 400) {
       setVisibleHours(1);
+      setAdditionalInfoFlag(false);
     } else if (width < 600) {
       setVisibleHours(2);
+      setAdditionalInfoFlag(false);
     } else if (width < 960) {
       setVisibleHours(4);
+      setAdditionalInfoFlag(false);
     } else {
       setVisibleHours(6);
+      setAdditionalInfoFlag(true);
     }
   };
 
@@ -182,18 +187,20 @@ const CoinDetail: React.FC<{ data: CoinData }> = ({ data }) => {
       </Box>
 
       {/* Additional Info Section */}
-      <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
-        <Typography variant="h6">Additional Information</Typography>
-        <Typography>
-          <strong>Hashing Algorithm:</strong> {hashing_algorithm || "N/A"}
-        </Typography>
-        <Typography>
-          <strong>Categories:</strong> {categories.join(", ")}
-        </Typography>
-        <Typography sx={{ marginTop: 2 }}>
-          <strong>Description:</strong> {description.en || "N/A"}
-        </Typography>
-      </Paper>
+      {additionalInfoFlag && (
+        <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
+          <Typography variant="h6">Additional Information</Typography>
+          <Typography>
+            <strong>Hashing Algorithm:</strong> {hashing_algorithm || "N/A"}
+          </Typography>
+          <Typography>
+            <strong>Categories:</strong> {categories.join(", ")}
+          </Typography>
+          <Typography sx={{ marginTop: 2 }}>
+            <strong>Description:</strong> {description.en || "N/A"}
+          </Typography>
+        </Paper>
+      )}
 
       {/* Links Section */}
       <Paper elevation={3} sx={{ padding: 3, marginTop: 3 }}>
