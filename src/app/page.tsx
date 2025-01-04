@@ -12,9 +12,10 @@ export default function Home() {
   );
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState<number>(1);
-  const pageSize = 100;
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [renderLess, setRenderLess] = useState<boolean>(false);
+
+  const pageSize = renderLess ? 20 : 50;
 
   useEffect(() => {
     const fetchCoinList = async () => {
@@ -86,7 +87,7 @@ export default function Home() {
             bgcolor="white"
           >
             <Pagination
-              count={hasMore ? page + 2 : page}
+              count={hasMore ? page + 1 : page}
               page={page}
               onChange={handlePageChange}
               color="primary"

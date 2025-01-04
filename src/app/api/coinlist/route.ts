@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   const renderLess = searchParams.get("renderLess") || "false";
 
   try {
-    console.log("renderLess:", renderLess);
+    console.log("page:", page);
     const data = await fetchWithAuth(
       `/coins/markets?vs_currency=usd&order=${sortBy}_${sortOrder}&per_page=${
         renderLess === "true" ? 20 : 50
