@@ -34,6 +34,7 @@ describe("CryptoTable", () => {
           sortOrder="asc"
           setSortBy={jest.fn()}
           setSortOrder={jest.fn()}
+          setRenderLess={jest.fn()}
         />
       </ThemeProvider>
     );
@@ -56,6 +57,7 @@ describe("CryptoTable", () => {
           sortOrder="asc"
           setSortBy={jest.fn()}
           setSortOrder={jest.fn()}
+          setRenderLess={jest.fn()}
         />
       </ThemeProvider>
     );
