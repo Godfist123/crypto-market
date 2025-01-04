@@ -5,10 +5,8 @@ interface chartParams {
 }
 
 export async function fetchChartDataWithAuth(params: chartParams) {
-  const baseUrl =
-    process.env.COINGECKO_BASE_URL || "https://api.coingecko.com/api/v3";
-  const authToken =
-    process.env.COINGECKE_AUTH_TOKEN || "CG-o5nKWJFNA83cwnMpetpXbDzk";
+  const baseUrl = process.env.COINGECKO_BASE_URL;
+  const authToken = process.env.COINGECKE_AUTH_TOKEN || "";
 
   try {
     const { coinId, from, to } = params;
