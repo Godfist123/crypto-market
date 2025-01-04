@@ -6,10 +6,14 @@ export async function GET(request: NextRequest) {
   const sortBy = searchParams.get("sortBy") || "market_cap";
   const sortOrder = searchParams.get("sortOrder") || "desc";
   const page = searchParams.get("page") || "1";
+  const renderLess = searchParams.get("renderLess") || "false";
 
   try {
+    console.log("renderLess:", renderLess);
     const data = await fetchWithAuth(
-      `/coins/markets?vs_currency=usd&order=${sortBy}_${sortOrder}&per_page=100&page=${page}&sparkline=false`
+      `/coins/markets?vs_currency=usd&order=${sortBy}_${sortOrder}&per_page=${
+        renderLess === "true" ? 20 : 50
+      }&page=${page}&sparkline=false`
     );
 
     return NextResponse.json(data);

@@ -14,12 +14,13 @@ export default function Home() {
   const [page, setPage] = useState<number>(1);
   const pageSize = 100;
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [renderLess, setRenderLess] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchCoinList = async () => {
       try {
         const response = await fetch(
-          `/api/coinlist/?sortBy=${sortBy}&sortOrder=${sortOrder}&page=${page}`
+          `/api/coinlist/?sortBy=${sortBy}&sortOrder=${sortOrder}&page=${page}&renderLess=${renderLess}`
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch with status: ${response.status}`);
@@ -44,7 +45,7 @@ export default function Home() {
     };
 
     fetchCoinList();
-  }, [sortBy, sortOrder, page]);
+  }, [sortBy, sortOrder, page, renderLess]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -52,6 +53,7 @@ export default function Home() {
   ) => {
     if (value === page) return;
     setPage(value);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -75,6 +77,7 @@ export default function Home() {
             sortOrder={sortOrder}
             setSortBy={setSortBy}
             setSortOrder={setSortOrder}
+            setRenderLess={setRenderLess}
           />
           <Box
             display="flex"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableContainer,
@@ -9,6 +9,9 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
+  Button,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
@@ -31,15 +34,58 @@ interface CryptoTableProps {
   sortOrder: "asc" | "desc";
   setSortBy: (value: "market_cap" | "volume" | "id") => void;
   setSortOrder: (value: "asc" | "desc") => void;
+  setRenderLess: (value: boolean) => void;
 }
 
-const CryptoTable: React.FC<CryptoTableProps> = ({ data }) => {
+const CryptoTable: React.FC<CryptoTableProps> = ({
+  data,
+  setSortBy,
+  setSortOrder,
+  sortBy,
+  sortOrder,
+  setRenderLess,
+}) => {
   const router = useRouter();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [expandedRows, setExpandedRows] = useState<{ [key: string]: boolean }>(
     {}
   );
+  const [anchorElSortBy, setAnchorElSortBy] = useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElOrder, setAnchorElOrder] = useState<null | HTMLElement>(null);
+
+  const toggleRenderLess = () => {
+    console.log("window.innerWidth", window.innerWidth);
+    setRenderLess(window.innerWidth < 960);
+  };
+
+  useEffect(() => {
+    toggleRenderLess();
+    window.addEventListener("resize", toggleRenderLess);
+    return () => window.removeEventListener("resize", toggleRenderLess);
+  }, []);
+
+  // Handlers for Sort By Dropdown
+  const handleSortByClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElSortBy(event.currentTarget);
+  };
+
+  const handleSortByClose = (newSortBy?: "market_cap" | "volume" | "id") => {
+    setAnchorElSortBy(null);
+    if (newSortBy) setSortBy(newSortBy);
+  };
+
+  // Handlers for Order Dropdown
+  const handleOrderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorElOrder(event.currentTarget);
+  };
+
+  const handleOrderClose = (newOrder?: "asc" | "desc") => {
+    setAnchorElOrder(null);
+    if (newOrder) setSortOrder(newOrder);
+  };
 
   const toggleRowExpansion = (id: string) => {
     setExpandedRows((prev) => ({
@@ -54,7 +100,43 @@ const CryptoTable: React.FC<CryptoTableProps> = ({ data }) => {
 
   return (
     <TableContainer component={Paper}>
-      <Toolbar>{/* Sort Dropdown Logic */}</Toolbar>
+      <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
+        {/* Sort By Dropdown */}
+        <Button variant="outlined" onClick={handleSortByClick}>
+          Sort By: {sortBy}
+        </Button>
+        <Menu
+          anchorEl={anchorElSortBy}
+          open={Boolean(anchorElSortBy)}
+          onClose={() => handleSortByClose()}
+        >
+          <MenuItem onClick={() => handleSortByClose("market_cap")}>
+            Market Cap
+          </MenuItem>
+          <MenuItem onClick={() => handleSortByClose("volume")}>
+            Volume
+          </MenuItem>
+          <MenuItem onClick={() => handleSortByClose("id")}>ID</MenuItem>
+        </Menu>
+        {/* Sort Order Dropdown */}
+        <Button
+          variant="outlined"
+          sx={{ marginLeft: 2 }}
+          onClick={handleOrderClick}
+        >
+          Order: {sortOrder}
+        </Button>
+        <Menu
+          anchorEl={anchorElOrder}
+          open={Boolean(anchorElOrder)}
+          onClose={() => handleOrderClose()}
+        >
+          <MenuItem onClick={() => handleOrderClose("asc")}>Ascending</MenuItem>
+          <MenuItem onClick={() => handleOrderClose("desc")}>
+            Descending
+          </MenuItem>
+        </Menu>
+      </Toolbar>
       <Typography variant="h4" align="center" gutterBottom>
         Cryptocurrency Market
       </Typography>
