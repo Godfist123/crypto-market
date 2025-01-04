@@ -1,0 +1,29 @@
+name: CI/CD - Automated Testing, Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  docker-test:
+    name: Build and Test with Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Docker
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # Build Docker Image
+      - name: Build Docker Image
+        run: docker build -t crypto .
+
+      - name: Run Tests in Docker
+        run: docker run --rm crypto
