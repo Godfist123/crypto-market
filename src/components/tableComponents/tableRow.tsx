@@ -8,9 +8,13 @@ import {
   Typography,
   Avatar,
   IconButton,
+  Icon,
 } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { PushPin } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { addPin, coinInfo } from "@/store/slices/PinSlice";
 
 interface Crypto {
   id: string;
@@ -40,6 +44,7 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({
   toggleRowExpansion,
   onRowClick,
 }) => {
+  const dispatch = useDispatch();
   return (
     <>
       <TableRow
@@ -53,6 +58,20 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({
       >
         <TableCell>
           <Box display="flex" alignItems="center">
+            <Icon
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(
+                  addPin({
+                    id: coin.id,
+                    name: coin.name,
+                    image: coin.image,
+                  } as coinInfo)
+                );
+              }}
+            >
+              <PushPin />
+            </Icon>
             {isMobile && (
               <IconButton
                 onClick={(e) => {
@@ -81,6 +100,7 @@ const CryptoTableRow: React.FC<CryptoTableRowProps> = ({
         {!isMobile && <TableCell>${coin.current_price ?? "N/A"}</TableCell>}
         {!isMobile && <TableCell>${coin.market_cap ?? "N/A"}</TableCell>}
         {!isMobile && <TableCell>${coin.high_24h ?? "N/A"}</TableCell>}
+
         <TableCell
           style={{
             color: coin.price_change_percentage_24h > 0 ? "green" : "red",

@@ -101,6 +101,8 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
   return (
     <TableContainer component={Paper}>
       <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
+        {/* <Button variant="outlined">Toggle pin/all</Button> */}
+
         {/* Sort By Dropdown */}
         <Button variant="outlined" onClick={handleSortByClick}>
           Sort By: {sortBy}
@@ -143,6 +145,7 @@ const CryptoTable: React.FC<CryptoTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell>Pin</TableCell>
             <TableCell>#</TableCell>
             <TableCell>Coin</TableCell>
             {!isMobile && <TableCell>Price</TableCell>}

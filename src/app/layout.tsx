@@ -1,18 +1,18 @@
+"use client";
 import Header from "@/components/Header";
 import "./globals.css";
 import { ReactNode } from "react";
-
-export const metadata = {
-  title: "Cryptocurrency Market Dashboard",
-  description: "View cryptocurrency market data and details",
-};
+import { Provider } from "react-redux";
+import { store } from "@/store/store";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <Provider store={store}>
+          <Header />
+          {children}
+        </Provider>
       </body>
     </html>
   );
